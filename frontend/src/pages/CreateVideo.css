@@ -1,0 +1,138 @@
+.create-video-page {
+    max-width: 760px;
+    margin: 40px auto;
+    padding: 0 20px 50px;
+}
+
+.create-video-page h1 {
+    margin: 0 0 28px;
+    font-size: 28px;
+}
+
+.create-video-form {
+    background: white;
+    border: 1px solid #e5e5e5;
+    border-radius: 12px;
+    padding: 28px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 7px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+    width: 100%;
+    box-sizing: border-box;
+
+    padding: 12px 14px;
+
+    border: 1px solid #ccc;
+    border-radius: 8px;
+
+    font-size: 15px;
+    font-family: inherit;
+
+    outline: none;
+    background: white;
+}
+
+.form-group textarea {
+    min-height: 130px;
+    resize: vertical;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    border-color: #111;
+}
+
+.form-hint {
+    margin: 6px 0 0;
+    color: #777;
+    font-size: 12px;
+}
+
+.form-error {
+    margin-bottom: 20px;
+    padding: 12px 14px;
+    border-radius: 8px;
+    background: #ffecec;
+    color: #c00;
+    font-size: 14px;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 28px;
+}
+
+.form-actions button {
+    border: none;
+    padding: 11px 20px;
+    border-radius: 22px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.upload-btn {
+    background: #111;
+    color: white;
+}
+
+.upload-btn:hover {
+    background: #333;
+}
+
+.upload-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.cancel-btn {
+    background: #f2f2f2;
+    color: #222;
+}
+
+.cancel-btn:hover {
+    background: #e5e5e5;
+}
+
+/* Mobile */
+
+@media (max-width: 600px) {
+    .create-video-page {
+        margin: 20px auto;
+        padding: 0 12px 30px;
+    }
+
+    .create-video-page h1 {
+        font-size: 23px;
+        margin-bottom: 20px;
+    }
+
+    .create-video-form {
+        padding: 18px;
+        border-radius: 10px;
+    }
+
+    .form-actions {
+        flex-direction: column-reverse;
+    }
+
+    .form-actions button {
+        width: 100%;
+    }
+}
