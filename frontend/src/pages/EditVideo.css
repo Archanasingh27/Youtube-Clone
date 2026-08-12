@@ -1,0 +1,126 @@
+.edit-video-page {
+    max-width: 760px;
+    margin: 40px auto;
+    padding: 0 20px 50px;
+}
+
+.edit-video-page h1 {
+    margin: 0 0 28px;
+    font-size: 28px;
+}
+
+.edit-video-form {
+    background: white;
+    border: 1px solid #e5e5e5;
+    border-radius: 12px;
+    padding: 28px;
+}
+
+.edit-form-group {
+    margin-bottom: 20px;
+}
+
+.edit-form-group label {
+    display: block;
+    margin-bottom: 7px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.edit-form-group input,
+.edit-form-group textarea,
+.edit-form-group select {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px 14px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 15px;
+    font-family: inherit;
+    outline: none;
+    background: white;
+}
+
+.edit-form-group textarea {
+    min-height: 130px;
+    resize: vertical;
+}
+
+.edit-form-group input:focus,
+.edit-form-group textarea:focus,
+.edit-form-group select:focus {
+    border-color: #111;
+}
+
+.edit-form-error {
+    margin-bottom: 20px;
+    padding: 12px 14px;
+    border-radius: 8px;
+    background: #ffecec;
+    color: #c00;
+    font-size: 14px;
+}
+
+.edit-form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 28px;
+}
+
+.edit-form-actions button {
+    border: none;
+    padding: 11px 20px;
+    border-radius: 22px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.update-video-btn {
+    background: #111;
+    color: white;
+}
+
+.update-video-btn:hover {
+    background: #333;
+}
+
+.update-video-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.edit-cancel-btn {
+    background: #f2f2f2;
+    color: #222;
+}
+
+.edit-cancel-btn:hover {
+    background: #e5e5e5;
+}
+
+@media (max-width: 600px) {
+    .edit-video-page {
+        margin: 20px auto;
+        padding: 0 12px 30px;
+    }
+
+    .edit-video-page h1 {
+        font-size: 23px;
+        margin-bottom: 20px;
+    }
+
+    .edit-video-form {
+        padding: 18px;
+        border-radius: 10px;
+    }
+
+    .edit-form-actions {
+        flex-direction: column-reverse;
+    }
+
+    .edit-form-actions button {
+        width: 100%;
+    }
+}
