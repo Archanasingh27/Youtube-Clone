@@ -71,7 +71,7 @@ Clone the repository:
 
 ```bash
 git clone https://github.com/Archanasingh27/Youtube-Clone.git
-c Youtube-Clone
+cd Youtube-Clone
 ``
 ## Backend Setup
 
