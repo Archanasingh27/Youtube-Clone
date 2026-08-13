@@ -1,97 +1,124 @@
+/* =========================
+   SIDEBAR
+========================= */
+
 .sidebar {
-    position: fixed;
+  position: fixed;
 
-    top: 64px;
-    left: 0;
+  top: 64px;
+  left: 0;
 
-    width: 230px;
-    height: calc(100vh - 64px);
+  width: 230px;
+  height: calc(100vh - 64px);
 
-    background: white;
-    border-right: 1px solid #e5e5e5;
+  background: white;
+  border-right: 1px solid #e5e5e5;
 
-    padding: 16px 12px;
+  padding: 16px 12px;
 
-    box-sizing: border-box;
+  box-sizing: border-box;
 
-    z-index: 1000;
+  z-index: 1000;
 
-    transform: translateX(-100%);
-    transition: transform 0.25s ease;
+  transform: translateX(-100%);
+  transition: transform 0.25s ease;
 
-    overflow-y: auto;
+  overflow-y: auto;
 }
+
+
+/* Sidebar open */
 
 .sidebar.open {
-    transform: translateX(0);
+  transform: translateX(0);
 }
+
+
+/* Navigation */
 
 .sidebar-nav {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
+  display: flex;
+  flex-direction: column;
+
+  gap: 4px;
 }
+
+
+/* Sidebar links */
 
 .sidebar-link {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 
-    gap: 18px;
+  gap: 18px;
 
-    min-height: 44px;
+  min-height: 44px;
 
-    padding: 0 14px;
+  padding: 0 14px;
 
-    border-radius: 10px;
+  border-radius: 10px;
 
-    color: #222;
-    text-decoration: none;
+  color: #222;
 
-    font-size: 14px;
-    font-weight: 500;
+  text-decoration: none;
 
-    transition: background 0.2s ease;
+  font-size: 14px;
+  font-weight: 500;
+
+  transition: background 0.2s ease;
 }
+
+
+/* Icons */
 
 .sidebar-link span:first-child {
-    width: 22px;
+  width: 22px;
 
-    text-align: center;
+  text-align: center;
 
-    font-size: 18px;
+  font-size: 18px;
+
+  flex-shrink: 0;
 }
+
+
+/* Hover */
 
 .sidebar-link:hover {
-    background: #f2f2f2;
+  background: #f2f2f2;
 }
+
+
+/* Active */
 
 .sidebar-link.active {
-    background: #f2f2f2;
-    font-weight: 600;
+  background: #f2f2f2;
+
+  font-weight: 600;
 }
+
+
+/* Divider */
 
 .sidebar-divider {
-    height: 1px;
-    background: #e5e5e5;
+  height: 1px;
 
-    margin: 14px 4px;
+  background: #e5e5e5;
+
+  margin: 14px 4px;
 }
 
-/* Desktop */
 
-@media (min-width: 1000px) {
-    .sidebar.open {
-        transform: translateX(0);
-    }
-}
-
-/* Mobile */
+/* =========================
+   MOBILE
+========================= */
 
 @media (max-width: 600px) {
-    .sidebar {
-        top: 58px;
-        height: calc(100vh - 58px);
+  .sidebar {
+    top: 58px;
 
-        width: 260px;
-    }
+    height: calc(100vh - 58px);
+
+    width: 260px;
+  }
 }

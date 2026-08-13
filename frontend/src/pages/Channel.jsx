@@ -8,25 +8,20 @@ const Channel = () => {
   const [videos, setVideos] = useState([]);
 
   const [loading, setLoading] = useState(true);
-  const [creating, setCreating] = useState(false);
   const [error, setError] = useState("");
 
-  const [formData, setFormData] = useState({
-    name: "",
-    description: "",
-    avatarUrl: "",
-    bannerUrl: "",
-  });
+  const [activeTab, setActiveTab] = useState("Home");
+
+  // Store the selected video sorting option
+  const [sortBy, setSortBy] = useState("Latest");
 
   const navigate = useNavigate();
 
-  // =========================
-  // GET MY CHANNEL
-  // =========================
-
+  // Fetch the logged-in user's channel and videos
   useEffect(() => {
     const fetchChannel = async () => {
       try {
+        // Get the current user's channel
         const response = await API.get("/channels/my");
 
         setChannel(response.data.channel);
@@ -34,14 +29,7 @@ const Channel = () => {
       } catch (error) {
         console.error("Get channel error:", error);
 
-        // User doesn't have a channel yet
-        if (error.response?.status === 404) {
-          setChannel(null);
-          setVideos([]);
-          setError("");
-        } else {
-          setError(error.response?.data?.message || "Unable to load channel");
-        }
+        setError(error.response?.data?.message || "Unable to load channel");
       } finally {
         setLoading(false);
       }
@@ -50,64 +38,20 @@ const Channel = () => {
     fetchChannel();
   }, []);
 
-  // =========================
-  // HANDLE INPUT
-  // =========================
-
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  // =========================
-  // CREATE CHANNEL
-  // =========================
-
-  const handleCreateChannel = async (e) => {
-    e.preventDefault();
-
-    setCreating(true);
-    setError("");
-
-    try {
-      const response = await API.post("/channels", formData);
-
-      setChannel(response.data.channel);
-      setVideos([]);
-
-      setFormData({
-        name: "",
-        description: "",
-        avatarUrl: "",
-        bannerUrl: "",
-      });
-    } catch (error) {
-      console.error("Create channel error:", error);
-
-      setError(error.response?.data?.message || "Failed to create channel");
-    } finally {
-      setCreating(false);
-    }
-  };
-
-  // =========================
-  // DELETE VIDEO
-  // =========================
-
+  // Delete a video from the user's channel
   const handleDeleteVideo = async (videoId) => {
+   
     const confirmed = window.confirm(
       "Are you sure you want to delete this video?",
     );
 
-    if (!confirmed) {
-      return;
-    }
+    if (!confirmed) return;
 
     try {
+      // Delete the video from the backend
       await API.delete(`/videos/${videoId}`);
 
+      // Remove the deleted video from the local state
       setVideos((prevVideos) =>
         prevVideos.filter((video) => video._id !== videoId),
       );
@@ -118,167 +62,242 @@ const Channel = () => {
     }
   };
 
-  // =========================
-  // LOADING
-  // =========================
+  // Sort videos according to the selected sorting option
+  const getSortedVideos = () => {
+    // Create a copy so the original videos array is not modified
+    const sortedVideos = [...videos];
+
+    // Latest videos are already returned in the default order
+    if (sortBy === "Latest") {
+      return sortedVideos;
+    }
+
+    // Reverse the order to show oldest videos first
+    if (sortBy === "Oldest") {
+      return sortedVideos.reverse();
+    }
+
+    // Sort videos by view count for the Popular option
+    if (sortBy === "Popular") {
+      return sortedVideos.sort((a, b) => (b.views || 0) - (a.views || 0));
+    }
+
+    return sortedVideos;
+  };
+
 
   if (loading) {
-    return <p>Loading channel...</p>;
+    return <p className="channel-message">Loading channel...</p>;
   }
 
-  // =========================
-  // ERROR
-  // =========================
-
-  if (error && !channel) {
-    return <p>{error}</p>;
+  if (error) {
+    return <p className="channel-message">{error}</p>;
   }
 
-  // =========================
-  // NO CHANNEL
-  // =========================
-
+  // Handle the case where no channel exists
   if (!channel) {
-    return (
-      <main className="create-channel-page">
-        <div className="create-channel-card">
-          <h1>Create Your Channel</h1>
-
-          <p>Create a channel to upload and manage your videos.</p>
-
-          {error && <p>{error}</p>}
-
-          <form onSubmit={handleCreateChannel}>
-            <input
-              type="text"
-              name="name"
-              placeholder="Channel name"
-              value={formData.name}
-              onChange={handleChange}
-              required
-            />
-
-            <textarea
-              name="description"
-              placeholder="Channel description"
-              value={formData.description}
-              onChange={handleChange}
-              required
-            />
-
-            <input
-              type="text"
-              name="avatarUrl"
-              placeholder="Profile picture URL"
-              value={formData.avatarUrl}
-              onChange={handleChange}
-            />
-
-            <input
-              type="text"
-              name="bannerUrl"
-              placeholder="Channel banner URL"
-              value={formData.bannerUrl}
-              onChange={handleChange}
-            />
-
-            <div className="create-channel-actions">
-              <button type="submit" disabled={creating}>
-                {creating ? "Creating..." : "Create Channel"}
-              </button>
-
-              <button type="button" onClick={() => navigate("/")}>
-                Cancel
-              </button>
-            </div>
-          </form>
-        </div>
-      </main>
-    );
+    return <p className="channel-message">Channel not found</p>;
   }
 
-  // =========================
-  // CHANNEL EXISTS
-  // =========================
+  // Get the videos after applying the selected sorting option
+  const sortedVideos = getSortedVideos();
 
   return (
     <main className="channel-page">
+      {/* ================= BANNER ================= */}
+
       <div className="channel-banner">
-        {channel.bannerUrl && (
+        {/* Display channel banner if available */}
+        {channel.bannerUrl ? (
           <img src={channel.bannerUrl} alt={`${channel.name} banner`} />
+        ) : (
+          // Display default banner when no banner URL exists
+          <div className="default-banner" />
         )}
       </div>
 
-      <div className="channel-info">
-        {channel.avatarUrl && (
-          <img
-            src={channel.avatarUrl}
-            alt={channel.name}
-            className="channel-avatar"
-          />
-        )}
+      {/* ================= CHANNEL INFO ================= */}
 
-        <div>
+      <section className="channel-header">
+        {/* Channel avatar */}
+        <div className="channel-avatar-wrapper">
+          {channel.avatarUrl ? (
+            <img
+              src={channel.avatarUrl}
+              alt={channel.name}
+              className="channel-avatar"
+            />
+          ) : (
+            // Display the first letter of the channel name
+            <div className="channel-avatar default-avatar">
+              {channel.name?.charAt(0).toUpperCase()}
+            </div>
+          )}
+        </div>
+
+        {/* Channel details */}
+        <div className="channel-details">
+          {/* Channel name */}
           <h1>{channel.name}</h1>
 
-          <p>{channel.description}</p>
+          {/* Channel handle, subscribers and video count */}
+          <p className="channel-handle">
+            @{channel.owner?.username || "user"}
+            <span> · </span>
+            {channel.subscribersCount || 0} subscribers
+            <span> · </span>
+            {videos.length} videos
+          </p>
 
-          <p>Owner: {channel.owner?.username || "You"}</p>
+          {/* Channel description */}
+          {channel.description && (
+            <p className="channel-description">{channel.description}</p>
+          )}
+
+          {/* Channel management actions */}
+          <div className="channel-actions">
+            {/* Navigate to edit channel page */}
+            <button
+              type="button"
+              className="edit-channel-btn"
+              onClick={() => navigate("/edit-channel")}
+            >
+              Edit Channel
+            </button>
+
+            {/* Navigate to video upload page */}
+            <button
+              type="button"
+              className="upload-channel-btn"
+              onClick={() => navigate("/create-video")}
+            >
+              Upload Video
+            </button>
+          </div>
         </div>
+      </section>
+
+      {/* ================= TABS ================= */}
+
+      <div className="channel-tabs">
+        {/* Render all available channel tabs */}
+        {["Home", "Videos", "Shorts", "Live", "Playlists", "Community"].map(
+          (tab) => (
+            <button
+              key={tab}
+              type="button"
+              className={
+                activeTab === tab ? "channel-tab active" : "channel-tab"
+              }
+              onClick={() => setActiveTab(tab)}
+            >
+              {tab}
+            </button>
+          ),
+        )}
       </div>
 
-      <section className="channel-videos">
-        <div className="channel-videos-header">
-          <h2>My Videos ({videos.length})</h2>
+      {/* ================= VIDEO SECTION ================= */}
 
-          <button
-            type="button"
-            className="upload-video-btn"
-            onClick={() => navigate("/create-video")}
-          >
-            Upload Video
-          </button>
-        </div>
+      {/* Show videos on Home and Videos tabs */}
+      {(activeTab === "Home" || activeTab === "Videos") && (
+        <section className="channel-content">
+          {/* Video section heading and sorting controls */}
+          <div className="video-section-header">
+            <h2>Videos</h2>
 
-        {videos.length === 0 ? (
-          <p>No videos uploaded yet.</p>
-        ) : (
-          <div className="video-grid">
-            {videos.map((video) => (
-              <div className="channel-video-card" key={video._id}>
-                <img
-                  src={video.thumbnailUrl}
-                  alt={video.title}
-                  className="video-thumbnail"
-                />
-
-                <h3>{video.title}</h3>
-
-                <p>{video.category}</p>
-
-                <p>{video.views} views</p>
-
-                <div className="channel-video-actions">
-                  <button
-                    type="button"
-                    onClick={() => navigate(`/edit-video/${video._id}`)}
-                  >
-                    Edit
-                  </button>
-
-                  <button
-                    type="button"
-                    className="delete-btn"
-                    onClick={() => handleDeleteVideo(video._id)}
-                  >
-                    Delete
-                  </button>
-                </div>
-              </div>
-            ))}
+            <div className="video-sort">
+              {/* Video sorting options */}
+              {["Latest", "Popular", "Oldest"].map((sort) => (
+                <button
+                  key={sort}
+                  type="button"
+                  className={sortBy === sort ? "sort-btn active" : "sort-btn"}
+                  onClick={() => setSortBy(sort)}
+                >
+                  {sort}
+                </button>
+              ))}
+            </div>
           </div>
-        )}
-      </section>
+
+          {/* Empty video state */}
+          {sortedVideos.length === 0 ? (
+            <div className="empty-videos">
+              <h3>No videos yet</h3>
+
+              <p>Upload your first video to see it here.</p>
+
+              {/* Navigate to video upload page */}
+              <button type="button" onClick={() => navigate("/create-video")}>
+                Upload Video
+              </button>
+            </div>
+          ) : (
+            /* Display uploaded videos */
+            <div className="channel-video-grid">
+              {sortedVideos.map((video) => (
+                <article className="channel-video-card" key={video._id}>
+                  {/* Video thumbnail */}
+                  <div
+                    className="channel-thumbnail-wrapper"
+                    onClick={() => navigate(`/watch/${video._id}`)}
+                  >
+                    <img
+                      src={video.thumbnailUrl}
+                      alt={video.title}
+                      className="channel-video-thumbnail"
+                    />
+                  </div>
+
+                  {/* Video information */}
+                  <div className="channel-video-info">
+                    {/* Video title */}
+                    <h3>{video.title}</h3>
+
+                    {/* Video views */}
+                    <p className="video-meta">{video.views || 0} views</p>
+
+                    {/* Video category */}
+                    <p className="video-category">{video.category}</p>
+                  </div>
+
+                  {/* Video management actions */}
+                  <div className="channel-video-actions">
+                    {/* Edit video */}
+                    <button
+                      type="button"
+                      onClick={() => navigate(`/edit-video/${video._id}`)}
+                    >
+                      Edit
+                    </button>
+
+                    {/* Delete video */}
+                    <button
+                      type="button"
+                      className="delete-btn"
+                      onClick={() => handleDeleteVideo(video._id)}
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </article>
+              ))}
+            </div>
+          )}
+        </section>
+      )}
+
+      {/* ================= OTHER TABS ================= */}
+
+      {/* Placeholder for tabs that are not implemented yet */}
+      {activeTab !== "Home" && activeTab !== "Videos" && (
+        <div className="channel-tab-placeholder">
+          <h2>{activeTab}</h2>
+
+          <p>{activeTab} content will be added later.</p>
+        </div>
+      )}
     </main>
   );
 };

@@ -79,14 +79,14 @@ export const getVideos = async (req, res) => {
   }
 };
 
+
 // Get a single video
 export const getVideoById = async (req, res) => {
   try {
     const { id } = req.params;
 
     const video = await Video.findById(id)
-      .populate("uploader", "username")
-     
+      .populate("uploader", "username");
 
     if (!video) {
       return res.status(404).json({
@@ -106,6 +106,34 @@ export const getVideoById = async (req, res) => {
   }
 };
 
+//Increment video view 
+export const incrementVideoView = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const video = await Video.findByIdAndUpdate(
+      id,
+      { $inc: { views: 1 } },
+      { new: true }
+    );
+
+    if (!video) {
+      return res.status(404).json({
+        message: "Video not found",
+      });
+    }
+
+    res.status(200).json({
+      views: video.views,
+    });
+  } catch (error) {
+    console.error("Increment view error:", error);
+
+    res.status(500).json({
+      message: "Server error",
+    });
+  }
+};
 
 // Update a video
 export const updateVideo = async (req, res) => {

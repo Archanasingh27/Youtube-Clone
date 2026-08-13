@@ -4,9 +4,14 @@ import API from "../services/api";
 import { useAuth } from "../context/AuthContext";
 
 const CreateChannelModal = ({ onClose, onCreated }) => {
+  // Get the currently logged-in user
   const { user } = useAuth();
+
+  // Used for navigating to different pages
   const navigate = useNavigate();
 
+  // Store channel form data
+  // Username is used as the default channel name
   const [formData, setFormData] = useState({
     name: user?.username || "",
     description: "",
@@ -14,9 +19,13 @@ const CreateChannelModal = ({ onClose, onCreated }) => {
     bannerUrl: "",
   });
 
+  // Track form submission status
   const [loading, setLoading] = useState(false);
+
+  // Store validation or API error messages
   const [error, setError] = useState("");
 
+  // Update form data when the user types
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -24,11 +33,14 @@ const CreateChannelModal = ({ onClose, onCreated }) => {
     });
   };
 
+  // Handle channel creation
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Clear previous error
     setError("");
 
+    // Validate required fields
     if (!formData.name.trim() || !formData.description.trim()) {
       setError("Channel name and description are required");
       return;
@@ -37,20 +49,28 @@ const CreateChannelModal = ({ onClose, onCreated }) => {
     setLoading(true);
 
     try {
+      // Send channel data to the backend
       await API.post("/channels", formData);
 
+      // Notify the parent component that the channel was created
       onCreated();
     } catch (error) {
       console.error("Create channel error:", error);
 
-      setError(error.response?.data?.message || "Failed to create channel");
+      // Display the backend error message if available
+      setError(
+        error.response?.data?.message || "Failed to create channel"
+      );
     } finally {
+      // Stop loading after the request finishes
       setLoading(false);
     }
   };
 
   return (
+    // Close the modal when clicking on the overlay
     <div className="modal-overlay" onClick={onClose}>
+      {/* Prevent clicks inside the modal from closing it */}
       <div
         className="create-channel-modal"
         onClick={(e) => e.stopPropagation()}
@@ -58,15 +78,22 @@ const CreateChannelModal = ({ onClose, onCreated }) => {
         <div className="modal-header">
           <h2>How you'll appear</h2>
 
+          {/* Close modal button */}
           <button type="button" onClick={onClose}>
             ×
           </button>
         </div>
 
+        {/* Channel avatar preview */}
         <div className="channel-avatar-preview">
           {formData.avatarUrl ? (
-            <img src={formData.avatarUrl} alt="Channel avatar" />
+            <img
+              src={formData.avatarUrl}
+              alt="Channel avatar"
+            />
           ) : (
+            // Show the first letter of the username
+            // when no avatar URL is provided
             <div className="default-avatar">
               {user?.username?.charAt(0).toUpperCase()}
             </div>
@@ -74,6 +101,7 @@ const CreateChannelModal = ({ onClose, onCreated }) => {
         </div>
 
         <form onSubmit={handleSubmit}>
+          {/* Channel name */}
           <input
             type="text"
             name="name"
@@ -82,6 +110,7 @@ const CreateChannelModal = ({ onClose, onCreated }) => {
             onChange={handleChange}
           />
 
+          {/* Channel description */}
           <textarea
             name="description"
             placeholder="Channel description"
@@ -89,6 +118,7 @@ const CreateChannelModal = ({ onClose, onCreated }) => {
             onChange={handleChange}
           />
 
+          {/* Optional channel avatar URL */}
           <input
             type="text"
             name="avatarUrl"
@@ -97,6 +127,7 @@ const CreateChannelModal = ({ onClose, onCreated }) => {
             onChange={handleChange}
           />
 
+          {/* Optional channel banner URL */}
           <input
             type="text"
             name="bannerUrl"
@@ -105,13 +136,20 @@ const CreateChannelModal = ({ onClose, onCreated }) => {
             onChange={handleChange}
           />
 
+          {/* Display validation or API errors */}
           {error && <p className="modal-error">{error}</p>}
 
           <div className="modal-actions">
-            <button type="button" className="cancel-btn" onClick={onClose}>
+            {/* Cancel channel creation */}
+            <button
+              type="button"
+              className="cancel-btn"
+              onClick={onClose}
+            >
               Cancel
             </button>
 
+            {/* Submit channel creation form */}
             <button
               type="submit"
               className="create-channel-btn"

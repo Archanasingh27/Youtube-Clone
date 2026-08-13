@@ -1,54 +1,110 @@
+/*GLOBAL*/
+
 * {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-body {
+html,
+body,
+#root {
   margin: 0;
+  min-height: 100vh;
   font-family: Arial, sans-serif;
   background: #f9f9f9;
   color: #111;
+}
+
+body {
   overflow-x: hidden;
 }
 
-main {
-  padding-top: 90px;
-  padding-left: 24px;
-  padding-right: 24px;
+/* APP LAYOUT*/
+
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
-@media (max-width: 600px) {
-  main {
-    padding-top: 75px;
-    padding-left: 12px;
-    padding-right: 12px;
-  }
+.app-body {
+  display: flex;
+  flex: 1;
+  width: 100%;
+  min-height: calc(100vh - 64px);
 }
+
+/* MAIN CONTENT*/
+
+.main-content {
+  flex: 1;
+  min-width: 0;
+  padding: 18px 18px 24px;
+  margin-left: 0;
+  transition: margin-left 0.25s ease;
+  max-width: 100%;
+}
+
+.main-content.sidebar-open {
+  margin-left: 230px;
+}
+
+/* VIDEO GRID*/
 
 .video-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(4, 1fr);
   gap: 28px 18px;
+  padding: 4px 0;
 }
 
+/*RESPONSIVE */
 
+/* Tablet */
 @media (max-width: 1100px) {
   .video-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px 16px;
   }
 }
 
-
+/* Small Tablet  */
 @media (max-width: 800px) {
+  .main-content {
+    padding: 16px 14px 20px;
+  }
+  
   .video-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 24px 14px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px 14px;
   }
 }
 
-
-@media (max-width: 550px) {
+/* Mobile */
+@media (max-width: 600px) {
+  .main-content {
+    padding: 12px 12px 20px;
+    margin-left: 0 !important;
+  }
+  
+  .main-content.sidebar-open {
+    margin-left: 0 !important;
+  }
+  
   .video-grid {
     grid-template-columns: 1fr;
-    gap: 22px;
+    gap: 18px;
+  }
+}
+
+/* Small Mobile - extra padding */
+@media (max-width: 400px) {
+  .main-content {
+    padding: 10px 10px 16px;
+  }
+  
+  .video-grid {
+    gap: 16px;
   }
 }

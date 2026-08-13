@@ -1,0 +1,234 @@
+/* =========================
+   EDIT CHANNEL PAGE
+========================= */
+
+.edit-channel-page {
+    min-height: calc(100vh - 64px);
+
+    padding: 40px 24px;
+
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+
+    background: #f9f9f9;
+
+    box-sizing: border-box;
+}
+
+
+/* =========================
+   CARD
+========================= */
+
+.edit-channel-card {
+    width: 100%;
+    max-width: 650px;
+
+    padding: 30px;
+
+    background: #fff;
+
+    border: 1px solid #e5e5e5;
+    border-radius: 12px;
+
+    box-sizing: border-box;
+}
+
+.edit-channel-card h1 {
+    margin: 0 0 28px;
+
+    font-size: 26px;
+    font-weight: 600;
+
+    color: #111;
+}
+
+
+/* =========================
+   FORM
+========================= */
+
+.edit-channel-card form {
+    display: flex;
+    flex-direction: column;
+
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+
+    gap: 8px;
+}
+
+.form-group label {
+    font-size: 14px;
+    font-weight: 600;
+
+    color: #333;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+
+    padding: 12px 14px;
+
+    border: 1px solid #ccc;
+    border-radius: 8px;
+
+    outline: none;
+
+    font-family: inherit;
+    font-size: 14px;
+
+    background: #fff;
+
+    box-sizing: border-box;
+
+    transition: border-color 0.2s ease;
+}
+
+.form-group input {
+    height: 44px;
+}
+
+.form-group textarea {
+    min-height: 120px;
+
+    resize: vertical;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: #065fd4;
+}
+
+
+/* =========================
+   ERROR
+========================= */
+
+.edit-channel-error {
+    margin: 0 0 18px;
+
+    padding: 10px 12px;
+
+    border-radius: 6px;
+
+    background: #fff0f0;
+
+    color: #d93025;
+
+    font-size: 14px;
+}
+
+
+/* =========================
+   BUTTONS
+========================= */
+
+.edit-channel-actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+
+    gap: 10px;
+
+    margin-top: 8px;
+}
+
+.cancel-btn,
+.save-channel-btn {
+    border: none;
+
+    padding: 10px 18px;
+
+    border-radius: 20px;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: background 0.2s ease;
+}
+
+.cancel-btn {
+    background: #f2f2f2;
+
+    color: #111;
+}
+
+.cancel-btn:hover {
+    background: #e5e5e5;
+}
+
+.save-channel-btn {
+    background: #065fd4;
+
+    color: #fff;
+}
+
+.save-channel-btn:hover {
+    background: #0556c4;
+}
+
+.save-channel-btn:disabled {
+    opacity: 0.6;
+
+    cursor: not-allowed;
+}
+
+
+/* =========================
+   TABLET
+========================= */
+
+@media (max-width: 800px) {
+    .edit-channel-page {
+        padding: 30px 18px;
+    }
+
+    .edit-channel-card {
+        padding: 26px;
+    }
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 600px) {
+    .edit-channel-page {
+        min-height: calc(100vh - 58px);
+
+        padding: 24px 12px;
+    }
+
+    .edit-channel-card {
+        padding: 22px 18px;
+
+        border-radius: 10px;
+    }
+
+    .edit-channel-card h1 {
+        margin-bottom: 22px;
+
+        font-size: 22px;
+    }
+
+    .edit-channel-actions {
+        justify-content: stretch;
+    }
+
+    .cancel-btn,
+    .save-channel-btn {
+        flex: 1;
+
+        padding: 10px 12px;
+    }
+}

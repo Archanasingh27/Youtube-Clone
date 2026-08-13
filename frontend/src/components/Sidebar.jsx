@@ -1,63 +1,72 @@
 import { NavLink } from "react-router-dom";
 import "./Sidebar.css";
 
-const Sidebar = ({ isOpen, setSidebarOpen }) => {
+// Sidebar navigation component
+const Sidebar = ({ isOpen, hasChannel }) => {
   return (
-    <>
-      <aside className={`sidebar ${isOpen ? "open" : ""}`}>
-        <nav className="sidebar-nav">
-          <NavLink
-            to="/"
-            className={({ isActive }) =>
-              isActive ? "sidebar-link active" : "sidebar-link"
-            }
-          >
-            <span>⌂</span>
-            <span>Home</span>
-          </NavLink>
+    // Add "open" class when the sidebar is open
+    <aside className={`sidebar ${isOpen ? "open" : ""}`}>
+      <nav className="sidebar-nav">
+        {/* Home */}
+        <NavLink
+          to="/"
+          className={({ isActive }) =>
+            isActive ? "sidebar-link active" : "sidebar-link"
+          }
+        >
+          <span>⌂</span>
+          <span>Home</span>
+        </NavLink>
 
-          <NavLink
-            to="/trending"
-            className={({ isActive }) =>
-              isActive ? "sidebar-link active" : "sidebar-link"
-            }
-          >
-            <span>🔥</span>
-            <span>Trending</span>
-          </NavLink>
+        {/* Trending videos */}
+        <NavLink
+          to="/trending"
+          className={({ isActive }) =>
+            isActive ? "sidebar-link active" : "sidebar-link"
+          }
+        >
+          <span>🔥</span>
+          <span>Trending</span>
+        </NavLink>
 
-          <NavLink
-            to="/subscriptions"
-            className={({ isActive }) =>
-              isActive ? "sidebar-link active" : "sidebar-link"
-            }
-          >
-            <span>▶</span>
-            <span>Subscriptions</span>
-          </NavLink>
+        {/* User subscriptions */}
+        <NavLink
+          to="/subscriptions"
+          className={({ isActive }) =>
+            isActive ? "sidebar-link active" : "sidebar-link"
+          }
+        >
+          <span>▶</span>
+          <span>Subscriptions</span>
+        </NavLink>
 
-          <NavLink
-            to="/library"
-            className={({ isActive }) =>
-              isActive ? "sidebar-link active" : "sidebar-link"
-            }
-          >
-            <span>▣</span>
-            <span>Library</span>
-          </NavLink>
+        {/* Saved/library videos */}
+        <NavLink
+          to="/library"
+          className={({ isActive }) =>
+            isActive ? "sidebar-link active" : "sidebar-link"
+          }
+        >
+          <span>▣</span>
+          <span>Library</span>
+        </NavLink>
 
-          <NavLink
-            to="/history"
-            className={({ isActive }) =>
-              isActive ? "sidebar-link active" : "sidebar-link"
-            }
-          >
-            <span>◷</span>
-            <span>History</span>
-          </NavLink>
+        {/* Watch history */}
+        <NavLink
+          to="/history"
+          className={({ isActive }) =>
+            isActive ? "sidebar-link active" : "sidebar-link"
+          }
+        >
+          <span>◷</span>
+          <span>History</span>
+        </NavLink>
 
-          <div className="sidebar-divider" />
+        {/* Divider between general and channel navigation */}
+        <div className="sidebar-divider" />
 
+        {/* Show My Channel only when the user has created a channel */}
+        {hasChannel && (
           <NavLink
             to="/channel"
             className={({ isActive }) =>
@@ -67,26 +76,9 @@ const Sidebar = ({ isOpen, setSidebarOpen }) => {
             <span>◉</span>
             <span>My Channel</span>
           </NavLink>
-
-          <NavLink
-            to="/create-video"
-            className={({ isActive }) =>
-              isActive ? "sidebar-link active" : "sidebar-link"
-            }
-          >
-            <span>＋</span>
-            <span>Upload Video</span>
-          </NavLink>
-        </nav>
-      </aside>
-
-      {isOpen && (
-        <div
-          className="sidebar-overlay"
-          onClick={() => setSidebarOpen(false)}
-        />
-      )}
-    </>
+        )}
+      </nav>
+    </aside>
   );
 };
 

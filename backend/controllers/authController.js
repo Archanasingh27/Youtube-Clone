@@ -2,26 +2,26 @@ import bcrypt from "bcryptjs";
 import User from "../models/User.js";
 import jwt from "jsonwebtoken";
 
+// Register a new user
 export const registerUser = async (req, res) => {
   try {
     const { username, email, password } = req.body;
 
-    //  Check required fields
+    // Check required fields
     if (!username || !email || !password) {
       return res.status(400).json({
         message: "Username, email and password are required",
       });
-      }
-      
-    // Validate username 
-      if (username.length < 3)
-      {
-          return res.status(400).json({
-              message: "Username must be atleast 3 character",
-          });
-      }
+    }
 
-    // Check if email already exists
+    // Validate username
+    if (username.length < 3) {
+      return res.status(400).json({
+        message: "Username must be atleast 3 character",
+      });
+    }
+
+    // Validate email
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!emailRegex.test(email)) {
@@ -30,7 +30,7 @@ export const registerUser = async (req, res) => {
       });
     }
 
-    //  Validate password strength
+    // Validate password strength
     const passwordRegex =
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
 
@@ -41,7 +41,7 @@ export const registerUser = async (req, res) => {
       });
     }
 
-    //  Check if email already exists
+    // Check if email already exists
     const existingEmail = await User.findOne({ email });
 
     if (existingEmail) {
@@ -50,17 +50,17 @@ export const registerUser = async (req, res) => {
       });
     }
 
-    //  Hash password
+    // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    //  Create user
+    // Create user
     const user = await User.create({
       username,
       email,
       password: hashedPassword,
     });
 
-    //  Send response
+    // Send success response
     res.status(201).json({
       message: "User registered successfully",
       user: {
@@ -78,7 +78,7 @@ export const registerUser = async (req, res) => {
   }
 };
 
-
+// Login user
 export const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -111,7 +111,7 @@ export const loginUser = async (req, res) => {
       });
     }
 
-    // Create JWT
+    // Create JWT token
     const token = jwt.sign(
       {
         userId: user._id,
@@ -122,7 +122,7 @@ export const loginUser = async (req, res) => {
       }
     );
 
-    // Send response
+    // Send success response
     res.status(200).json({
       message: "Login successful",
       token,

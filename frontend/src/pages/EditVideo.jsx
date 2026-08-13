@@ -5,7 +5,9 @@ import "./EditVideo.css";
 
 
 const EditVideo = () => {
+  // Get the video ID from the URL.
   const { id } = useParams();
+
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -17,16 +19,21 @@ const EditVideo = () => {
   });
 
   const [loading, setLoading] = useState(true);
+
   const [saving, setSaving] = useState(false);
+
   const [error, setError] = useState("");
 
+  // Fetch the existing video details when the page loads.
   useEffect(() => {
     const fetchVideo = async () => {
       try {
+        // Get the video using its ID.
         const response = await API.get(`/videos/${id}`);
 
         const video = response.data.video;
 
+        // Fill the form with the existing video data.
         setFormData({
           title: video.title || "",
           description: video.description || "",
@@ -37,17 +44,18 @@ const EditVideo = () => {
       } catch (error) {
         console.error("Get video error:", error);
 
-        setError(
-          error.response?.data?.message ||
-            "Failed to load video"
-        );
+        // Display the backend error message if available.
+        setError(error.response?.data?.message || "Failed to load video");
       } finally {
+        // Stop loading after the request completes.
         setLoading(false);
       }
     };
 
     fetchVideo();
   }, [id]);
+
+  // Update the corresponding form field
 
   const handleChange = (e) => {
     setFormData({
@@ -56,6 +64,7 @@ const EditVideo = () => {
     });
   };
 
+  // Submit the updated video information.
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -63,27 +72,26 @@ const EditVideo = () => {
     setError("");
 
     try {
+      // Send the updated video data to the backend.
       await API.put(`/videos/${id}`, formData);
 
       alert("Video updated successfully");
-
       navigate("/channel");
     } catch (error) {
       console.error("Update video error:", error);
-
-      setError(
-        error.response?.data?.message ||
-          "Failed to update video"
-      );
+      setError(error.response?.data?.message || "Failed to update video");
     } finally {
+    
       setSaving(false);
     }
   };
 
+  // Show loading message while fetching video data.
   if (loading) {
     return <p>Loading video...</p>;
   }
 
+  // display the error message.
   if (error && !formData.title) {
     return <p>{error}</p>;
   }
@@ -92,9 +100,11 @@ const EditVideo = () => {
     <main className="edit-video-page">
       <h1>Edit Video</h1>
 
+      {/* Display an error message if the update fails. */}
       {error && <p>{error}</p>}
 
       <form onSubmit={handleSubmit} className="edit-video-form">
+        {/* Video title */}
         <div className="edit-form-group">
           <label htmlFor="title">Title</label>
 
@@ -109,6 +119,7 @@ const EditVideo = () => {
           />
         </div>
 
+        {/* Video description */}
         <div className="edit-form-group">
           <label htmlFor="description">Description</label>
 
@@ -122,6 +133,7 @@ const EditVideo = () => {
           />
         </div>
 
+        {/* Video URL */}
         <div className="edit-form-group">
           <label htmlFor="videoUrl">Video URL</label>
 
@@ -136,6 +148,7 @@ const EditVideo = () => {
           />
         </div>
 
+        {/* Thumbnail URL */}
         <div className="edit-form-group">
           <label htmlFor="thumbnailUrl">Thumbnail URL</label>
 
@@ -150,6 +163,7 @@ const EditVideo = () => {
           />
         </div>
 
+        {/* Video category */}
         <div className="edit-form-group">
           <label htmlFor="category">Category</label>
 
@@ -161,6 +175,7 @@ const EditVideo = () => {
             required
           >
             <option value="">Select category</option>
+
             <option value="Music">Music</option>
             <option value="Gaming">Gaming</option>
             <option value="Programming">Programming</option>
@@ -170,7 +185,9 @@ const EditVideo = () => {
           </select>
         </div>
 
+        {/* Form action buttons */}
         <div className="edit-form-actions">
+          {/* Cancel editing and return to channel. */}
           <button
             type="button"
             className="edit-cancel-btn"
@@ -179,6 +196,7 @@ const EditVideo = () => {
             Cancel
           </button>
 
+          {/* Submit updated video details. */}
           <button type="submit" className="update-video-btn" disabled={saving}>
             {saving ? "Updating..." : "Update Video"}
           </button>

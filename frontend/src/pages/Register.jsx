@@ -1,11 +1,18 @@
+
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+
+
 import API from "../services/api";
+
+
 import "./Auth.css";
 
 const Register = () => {
+  
   const navigate = useNavigate();
 
+  // Store registration form data.
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -13,8 +20,11 @@ const Register = () => {
   });
 
   const [error, setError] = useState("");
+
   const [loading, setLoading] = useState(false);
 
+  // Update the corresponding form field
+  // whenever the user enters a value.
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -22,22 +32,23 @@ const Register = () => {
     });
   };
 
+  // Handle registration form submission.
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Clear previous errors and start loading.
     setError("");
     setLoading(true);
 
     try {
+      // Send registration data to the backend.
       await API.post("/auth/register", formData);
-
-      // Registration successful → Login page
       navigate("/login");
     } catch (error) {
-      setError(
-        error.response?.data?.message || "Registration failed"
-      );
+
+      setError(error.response?.data?.message || "Registration failed");
     } finally {
+
       setLoading(false);
     }
   };
@@ -49,9 +60,11 @@ const Register = () => {
 
         <p className="auth-subtitle">Create an account to start watching</p>
 
+        {/* Display registration error when available. */}
         {error && <p className="auth-error">{error}</p>}
 
         <form onSubmit={handleSubmit} className="auth-form">
+          {/* Username field */}
           <div className="auth-field">
             <label htmlFor="username">Username</label>
 
@@ -66,6 +79,7 @@ const Register = () => {
             />
           </div>
 
+          {/* Email field */}
           <div className="auth-field">
             <label htmlFor="email">Email</label>
 
@@ -80,6 +94,7 @@ const Register = () => {
             />
           </div>
 
+          {/* Password field */}
           <div className="auth-field">
             <label htmlFor="password">Password</label>
 
@@ -94,11 +109,13 @@ const Register = () => {
             />
           </div>
 
+          {/* Submit registration form */}
           <button type="submit" className="auth-submit" disabled={loading}>
             {loading ? "Creating Account..." : "Register"}
           </button>
         </form>
 
+        {/* Redirect existing users to the login page. */}
         <p className="auth-switch">
           Already have an account?{" "}
           <button type="button" onClick={() => navigate("/login")}>

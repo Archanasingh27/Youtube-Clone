@@ -4,7 +4,8 @@ import {
   getVideos,
     getVideoById,
     updateVideo,
-     deleteVideo,
+  deleteVideo,
+  incrementVideoView,
 } from "../controllers/videoController.js";
 import authMiddleware from "../middleware/authMiddleware.js";
 
@@ -17,6 +18,8 @@ router.post("/", authMiddleware, createVideo);
 router.get("/", getVideos);
 
 router.get("/:id", getVideoById);
+
+router.post("/:id/view",authMiddleware, incrementVideoView);
 
 router.put("/:id", authMiddleware, updateVideo);
 

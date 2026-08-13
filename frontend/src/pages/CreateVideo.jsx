@@ -6,6 +6,7 @@ import "./CreateVideo.css";
 const CreateVideo = () => {
   const navigate = useNavigate();
 
+ 
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -14,9 +15,11 @@ const CreateVideo = () => {
     category: "",
   });
 
+  // Manage form loading and error states
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
+  // Update the corresponding form field when the user types
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -24,6 +27,7 @@ const CreateVideo = () => {
     });
   };
 
+  // Submit the video data to the backend
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -31,6 +35,7 @@ const CreateVideo = () => {
     setError("");
 
     try {
+      // Create a new video using the entered form data
       await API.post("/videos", formData);
 
       alert("Video uploaded successfully");
@@ -39,11 +44,9 @@ const CreateVideo = () => {
     } catch (error) {
       console.error("Create video error:", error);
 
-      setError(
-        error.response?.data?.message ||
-          "Failed to upload video"
-      );
+      setError(error.response?.data?.message || "Failed to upload video");
     } finally {
+   
       setLoading(false);
     }
   };
@@ -52,9 +55,11 @@ const CreateVideo = () => {
     <main className="create-video-page">
       <h1>Upload Video</h1>
 
+      {/* Display form submission errors */}
       {error && <p className="form-error">{error}</p>}
 
       <form onSubmit={handleSubmit} className="create-video-form">
+        {/* Video title */}
         <div className="form-group">
           <label htmlFor="title">Title</label>
 
@@ -69,6 +74,7 @@ const CreateVideo = () => {
           />
         </div>
 
+        {/* Video description */}
         <div className="form-group">
           <label htmlFor="description">Description</label>
 
@@ -82,6 +88,7 @@ const CreateVideo = () => {
           />
         </div>
 
+        {/* Video URL */}
         <div className="form-group">
           <label htmlFor="videoUrl">Video URL</label>
 
@@ -95,9 +102,11 @@ const CreateVideo = () => {
             required
           />
 
+          {/* Explanation for the video URL field */}
           <p className="form-hint">Enter the URL of your video file.</p>
         </div>
 
+        {/* Video thumbnail URL */}
         <div className="form-group">
           <label htmlFor="thumbnailUrl">Thumbnail URL</label>
 
@@ -112,6 +121,7 @@ const CreateVideo = () => {
           />
         </div>
 
+        {/* Video category */}
         <div className="form-group">
           <label htmlFor="category">Category</label>
 
@@ -132,7 +142,9 @@ const CreateVideo = () => {
           </select>
         </div>
 
+        {/* Form action buttons */}
         <div className="form-actions">
+       
           <button
             type="button"
             className="cancel-btn"
@@ -141,6 +153,7 @@ const CreateVideo = () => {
             Cancel
           </button>
 
+          {/* Submit the video form */}
           <button type="submit" className="upload-btn" disabled={loading}>
             {loading ? "Uploading..." : "Upload Video"}
           </button>

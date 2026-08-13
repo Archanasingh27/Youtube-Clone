@@ -1,7 +1,7 @@
 import Channel from "../models/Channel.js";
 import Video from "../models/Video.js";
 
-// Create a channel
+// Create a new channel
 export const createChannel = async (req, res) => {
   try {
     const { name, description, avatarUrl, bannerUrl } = req.body;
@@ -46,7 +46,7 @@ export const createChannel = async (req, res) => {
   }
 };
 
-// Get my channel
+// Get the logged-in user's channel
 export const getMyChannel = async (req, res) => {
   try {
     const channel = await Channel.findOne({
@@ -59,6 +59,7 @@ export const getMyChannel = async (req, res) => {
       });
     }
 
+    // Get all videos uploaded to the channel
     const videos = await Video.find({
       channel: channel._id,
     })
@@ -79,8 +80,7 @@ export const getMyChannel = async (req, res) => {
   }
 };
 
-
-// Update my channel
+// Update the logged-in user's channel
 export const updateChannel = async (req, res) => {
   try {
     const { name, description, avatarUrl, bannerUrl } = req.body;
@@ -95,7 +95,7 @@ export const updateChannel = async (req, res) => {
       });
     }
 
-    // Update only provided fields
+    // Update only the fields provided in the request
     if (name !== undefined) {
       channel.name = name;
     }
@@ -127,12 +127,12 @@ export const updateChannel = async (req, res) => {
   }
 };
 
-
-// Get channel by ID with its videos
+// Get a channel by ID with its videos
 export const getChannelById = async (req, res) => {
   try {
     const { id } = req.params;
 
+    // Find channel and get owner's username
     const channel = await Channel.findById(id)
       .populate("owner", "username");
 
@@ -142,6 +142,7 @@ export const getChannelById = async (req, res) => {
       });
     }
 
+    // Get all videos from this channel
     const videos = await Video.find({
       channel: channel._id,
     })

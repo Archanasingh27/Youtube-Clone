@@ -11,34 +11,27 @@ import videoReactionRoutes from "./routes/videoReactionRoutes.js";
 import savedVideoRoutes from "./routes/savedVideoRoutes.js";
 import commentRoutes from "./routes/commentRoutes.js";
 
+
 dotenv.config();
 
 const app = express();
 
+// Middleware
 app.use(cors());
 app.use(express.json());
 
+// Connect to database
 connectDB();
 
+// Routes
 app.use("/auth", authRoutes);
-
 app.use("/videos", videoRoutes);
-
 app.use("/channels", channelRoutes);
-
 app.use("/reactions", videoReactionRoutes);
-
 app.use("/saved-videos", savedVideoRoutes);
-
 app.use("/comments", commentRoutes);
 
-// app.get("/auth/protected", authMiddleware, (req, res) => {
-//   res.json({
-//     message: "You accessed a protected route",
-//     user: req.user,
-//   });
-//});
-
+// Start server
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {

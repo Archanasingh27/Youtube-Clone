@@ -1,215 +1,625 @@
+/* =========================
+   CHANNEL PAGE
+========================= */
+
 .channel-page {
-    max-width: 1200px;
+    width: 100%;
+    max-width: 1400px;
     margin: 0 auto;
-    padding-bottom: 50px;
+
+    padding: 24px 32px 60px;
+
+    box-sizing: border-box;
 }
 
-/* Banner */
+
+/* =========================
+   BANNER
+========================= */
 
 .channel-banner {
     width: 100%;
-    height: 260px;
-    background: #e5e5e5;
-    border-radius: 0 0 14px 14px;
+    height: 220px;
+
     overflow: hidden;
+
+    border-radius: 12px;
+
+    background: #e5e5e5;
 }
 
 .channel-banner img {
     width: 100%;
     height: 100%;
+
+    display: block;
+
     object-fit: cover;
 }
 
-/* Channel information */
+.default-banner {
+    width: 100%;
+    height: 100%;
 
-.channel-info {
+    background: linear-gradient(120deg,
+            #dbeafe,
+            #93c5fd,
+            #60a5fa);
+}
+
+
+/* =========================
+   CHANNEL HEADER
+========================= */
+
+.channel-header {
     display: flex;
-    align-items: center;
-    gap: 24px;
-    padding: 28px 10px;
-    border-bottom: 1px solid #e5e5e5;
+    align-items: flex-start;
+
+    gap: 28px;
+
+    padding: 28px 8px 24px;
 }
 
-.channel-avatar {
-    width: 110px;
-    height: 110px;
-    border-radius: 50%;
-    object-fit: cover;
-    background: #eee;
+
+/* =========================
+   AVATAR
+========================= */
+
+.channel-avatar-wrapper {
     flex-shrink: 0;
 }
 
-.channel-info h1 {
-    margin: 0 0 8px;
-    font-size: 28px;
+.channel-avatar {
+    width: 140px;
+    height: 140px;
+
+    border-radius: 50%;
+
+    object-fit: cover;
+
+    display: block;
 }
 
-.channel-info p {
-    margin: 6px 0;
-    color: #606060;
-    line-height: 1.5;
-}
-
-/* Videos section */
-
-.channel-videos {
-    padding: 28px 10px;
-}
-
-.channel-videos-header {
+.default-avatar {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 15px;
-    margin-bottom: 24px;
-}
+    justify-content: center;
 
-.channel-videos-header h2 {
-    margin: 0;
-    font-size: 22px;
-}
+    background: #065fd4;
 
-.upload-video-btn {
-    border: none;
-    background: #111;
     color: white;
-    padding: 11px 18px;
-    border-radius: 22px;
-    cursor: pointer;
+
+    font-size: 52px;
     font-weight: 600;
 }
 
-.upload-video-btn:hover {
+
+/* =========================
+   CHANNEL DETAILS
+========================= */
+
+.channel-details {
+    flex: 1;
+
+    min-width: 0;
+}
+
+.channel-details h1 {
+    margin: 4px 0 8px;
+
+    font-size: 32px;
+    font-weight: 700;
+
+    color: #111;
+}
+
+.channel-handle {
+    margin: 0 0 12px;
+
+    color: #606060;
+
+    font-size: 14px;
+}
+
+.channel-description {
+    max-width: 700px;
+
+    margin: 0 0 18px;
+
+    color: #444;
+
+    font-size: 14px;
+
+    line-height: 1.5;
+}
+
+
+/* =========================
+   CHANNEL ACTIONS
+========================= */
+
+.channel-actions {
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+}
+
+.channel-actions button {
+    border: none;
+
+    padding: 10px 18px;
+
+    border-radius: 22px;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+.edit-channel-btn {
+    background: #f2f2f2;
+    color: #111;
+}
+
+.edit-channel-btn:hover {
+    background: #e5e5e5;
+}
+
+.upload-channel-btn {
+    background: #111;
+    color: white;
+}
+
+.upload-channel-btn:hover {
     background: #333;
 }
 
-/* Channel video card */
+
+/* =========================
+   TABS
+========================= */
+
+.channel-tabs {
+    display: flex;
+    align-items: center;
+
+    gap: 4px;
+
+    border-bottom: 1px solid #ddd;
+
+    overflow-x: auto;
+
+    scrollbar-width: none;
+}
+
+.channel-tabs::-webkit-scrollbar {
+    display: none;
+}
+
+.channel-tab {
+    flex-shrink: 0;
+
+    border: none;
+    border-bottom: 3px solid transparent;
+
+    padding: 14px 18px;
+
+    background: transparent;
+
+    color: #606060;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+.channel-tab:hover {
+    color: #111;
+}
+
+.channel-tab.active {
+    color: #111;
+
+    border-bottom-color: #111;
+}
+
+
+/* =========================
+   VIDEO CONTENT
+========================= */
+
+.channel-content {
+    padding-top: 26px;
+}
+
+.video-section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 20px;
+}
+
+.video-section-header h2 {
+    margin: 0;
+
+    font-size: 22px;
+}
+
+
+/* =========================
+   SORT BUTTONS
+========================= */
+
+.video-sort {
+    display: flex;
+    gap: 8px;
+}
+
+.sort-btn {
+    border: none;
+
+    padding: 8px 14px;
+
+    border-radius: 18px;
+
+    background: #f2f2f2;
+
+    color: #333;
+
+    font-size: 13px;
+
+    cursor: pointer;
+}
+
+.sort-btn:hover {
+    background: #e5e5e5;
+}
+
+.sort-btn.active {
+    background: #111;
+    color: white;
+}
+
+
+/* =========================
+   VIDEO GRID
+========================= */
+
+.channel-video-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+
+    gap: 28px 18px;
+}
+
+
+/* =========================
+   VIDEO CARD
+========================= */
 
 .channel-video-card {
     min-width: 0;
 }
 
-.channel-video-card .video-thumbnail {
+.channel-thumbnail-wrapper {
     width: 100%;
+
     aspect-ratio: 16 / 9;
-    object-fit: cover;
-    display: block;
+
+    overflow: hidden;
+
     border-radius: 10px;
+
+    background: #eee;
+
+    cursor: pointer;
 }
 
-.channel-video-card h3 {
-    margin: 10px 0 5px;
-    font-size: 16px;
-    line-height: 1.4;
+.channel-video-thumbnail {
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    object-fit: cover;
+
+    transition: transform 0.2s ease;
+}
+
+.channel-thumbnail-wrapper:hover .channel-video-thumbnail {
+    transform: scale(1.03);
+}
+
+
+/* =========================
+   VIDEO INFO
+========================= */
+
+.channel-video-info {
+    padding: 10px 4px 4px;
+}
+
+.channel-video-info h3 {
+    margin: 0 0 6px;
+
+    font-size: 15px;
+    font-weight: 600;
+
+    line-height: 1.35;
 
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
+
     overflow: hidden;
 }
 
-.channel-video-card>p {
-    margin: 4px 0;
+.video-meta,
+.video-category {
+    margin: 3px 0;
+
     color: #606060;
+
     font-size: 13px;
 }
 
-/* Edit / Delete */
+
+/* =========================
+   EDIT / DELETE
+========================= */
 
 .channel-video-actions {
     display: flex;
+
     gap: 8px;
-    margin-top: 10px;
+
+    margin-top: 8px;
 }
 
 .channel-video-actions button {
-    border: 1px solid #ddd;
-    background: white;
-    padding: 7px 14px;
-    border-radius: 18px;
+    border: none;
+
+    padding: 7px 12px;
+
+    border-radius: 16px;
+
+    background: #f2f2f2;
+
+    color: #222;
+
+    font-size: 12px;
+    font-weight: 600;
+
     cursor: pointer;
-    font-size: 13px;
 }
 
 .channel-video-actions button:hover {
-    background: #f2f2f2;
+    background: #e5e5e5;
+}
+
+.channel-video-actions .delete-btn {
+    color: #d93025;
 }
 
 .channel-video-actions .delete-btn:hover {
-    background: #ffecec;
+    background: #fee2e2;
 }
 
-/* Tablet */
+
+/* =========================
+   EMPTY STATE
+========================= */
+
+.empty-videos {
+    padding: 80px 20px;
+
+    text-align: center;
+
+    border: 1px solid #eee;
+
+    border-radius: 12px;
+
+    background: white;
+}
+
+.empty-videos h3 {
+    margin: 0 0 8px;
+
+    font-size: 20px;
+}
+
+.empty-videos p {
+    margin: 0 0 20px;
+
+    color: #606060;
+
+    font-size: 14px;
+}
+
+.empty-videos button {
+    border: none;
+
+    padding: 10px 18px;
+
+    border-radius: 20px;
+
+    background: #111;
+
+    color: white;
+
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+
+/* =========================
+   TAB PLACEHOLDER
+========================= */
+
+.channel-tab-placeholder {
+    padding: 70px 20px;
+
+    text-align: center;
+}
+
+.channel-tab-placeholder h2 {
+    margin-bottom: 8px;
+}
+
+.channel-tab-placeholder p {
+    color: #606060;
+}
+
+
+/* =========================
+   MESSAGE
+========================= */
+
+.channel-message {
+    padding: 120px 20px;
+
+    text-align: center;
+}
+
+
+/* =========================
+   TABLET
+========================= */
+
+@media (max-width: 1100px) {
+    .channel-video-grid {
+        grid-template-columns:
+            repeat(3, minmax(0, 1fr));
+    }
+}
+
+
+/* =========================
+   TABLET SMALL
+========================= */
 
 @media (max-width: 800px) {
-    .channel-banner {
-        height: 210px;
-        border-radius: 0 0 10px 10px;
+    .channel-page {
+        padding: 18px 20px 50px;
     }
 
-    .channel-info {
-        gap: 18px;
-        padding: 22px 5px;
+    .channel-banner {
+        height: 180px;
+    }
+
+    .channel-header {
+        gap: 20px;
     }
 
     .channel-avatar {
-        width: 85px;
-        height: 85px;
+        width: 110px;
+        height: 110px;
     }
 
-    .channel-info h1 {
-        font-size: 23px;
+    .default-avatar {
+        font-size: 42px;
+    }
+
+    .channel-details h1 {
+        font-size: 26px;
+    }
+
+    .channel-video-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+        gap: 24px 14px;
     }
 }
 
-/* Mobile */
+
+/* =========================
+   MOBILE
+========================= */
 
 @media (max-width: 600px) {
     .channel-page {
-        padding-bottom: 30px;
+        padding: 12px 12px 40px;
     }
 
     .channel-banner {
-        height: 150px;
+        height: 130px;
+
+        border-radius: 8px;
     }
 
-    .channel-info {
-        align-items: flex-start;
+    .channel-header {
+        flex-direction: column;
+
         gap: 14px;
-        padding: 18px 0;
+
+        padding: 18px 4px;
     }
 
     .channel-avatar {
-        width: 65px;
-        height: 65px;
+        width: 90px;
+        height: 90px;
     }
 
-    .channel-info h1 {
-        font-size: 19px;
+    .default-avatar {
+        font-size: 34px;
     }
 
-    .channel-info p {
+    .channel-details h1 {
+        font-size: 22px;
+    }
+
+    .channel-description {
         font-size: 13px;
     }
 
-    .channel-videos {
-        padding: 20px 0;
+    .channel-actions {
+        flex-wrap: wrap;
     }
 
-    .channel-videos-header {
+    .channel-tabs {
+        margin: 0 -12px;
+
+        padding-left: 8px;
+    }
+
+    .channel-tab {
+        padding: 12px 14px;
+    }
+
+    .channel-content {
+        padding-top: 20px;
+    }
+
+    .video-section-header {
         align-items: flex-start;
+
         flex-direction: column;
+
+        gap: 12px;
     }
 
-    .channel-videos-header h2 {
-        font-size: 19px;
+    .video-section-header h2 {
+        font-size: 20px;
     }
 
-    .upload-video-btn {
+    .video-sort {
         width: 100%;
+
+        overflow-x: auto;
     }
 
-    .channel-video-actions button {
-        flex: 1;
+    .channel-video-grid {
+        grid-template-columns: 1fr;
+
+        gap: 24px;
     }
 }
